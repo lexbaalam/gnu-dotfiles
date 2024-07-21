@@ -1,0 +1,43 @@
+#!/bin/bash
+
+installdotfiles() {
+	
+	echo "installing ..."
+	
+	local BASEDIR=$(dirname $0)
+	cd $BASEDIR
+	
+	local I3DIR=${PWD}/config/i3
+	local I3=$HOME/.config/i3
+	local I3STATUSDIR=${PWD}/config/i3status
+	local I3STATUS=$HOME/.config/i3status
+    
+	[[ -d $I3 ]] && rm -r $I3 2>/dev/null || true
+	[[ -d $I3STATUS ]] && rm -r $I3STATUS 2>/dev/null || true
+
+	ln -sd $I3DIR $I3 2>/dev/null || true
+	ln -sd $I3STATUSDIR $I3STATUS 2>/dev/null || true
+    
+	xdotool key Super_L+Shift_R+r
+}
+
+uninstalldotfiles() {
+	
+	echo "uninstall dotfiles ..."
+	
+	rm -r ~/.config/i3 2>/dev/null || true
+	rm -r ~/.config/i3status 2>/dev/null || true
+	i3-config-wizard
+}
+
+case $1 in
+	-i | --install)
+		installdotfiles
+	;;
+	-u | --uninstall)
+		uninstalldotfiles
+	;;
+	*)
+		echo "No option"
+	;;
+esac

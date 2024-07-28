@@ -23,12 +23,16 @@ installdotfiles() {
 	local I3=$HOME/.config/i3
 	local I3STATUSDIR=${PWD}/config/i3status
 	local I3STATUS=$HOME/.config/i3status
+	local WALLPAPERFILE=${PWD}/local/share/abstract.png
+    local WALLPAPER=$HOME/.local/share/wallpaper
     
 	[[ -d $I3 ]] && rm -r $I3 2>/dev/null || true
 	[[ -d $I3STATUS ]] && rm -r $I3STATUS 2>/dev/null || true
+	[[ -f $WALLPAPERFILE ]] && rm $WALLPAPER 2>/dev/null || true
 
 	ln -sd $I3DIR $I3 2>/dev/null || true
 	ln -sd $I3STATUSDIR $I3STATUS 2>/dev/null || true
+	ln -sf $WALLPAPERFILE $WALLPAPER 2>/dev/null || true
 	
 	creategitconfig
     

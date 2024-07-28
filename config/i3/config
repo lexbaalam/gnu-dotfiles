@@ -184,3 +184,6 @@ client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 client.background       #F8F8F2
 #hide_edge_borders both
+
+# Set wallpaper
+exec_always --no-startup-id ~/.local/scripts/setwallpaper

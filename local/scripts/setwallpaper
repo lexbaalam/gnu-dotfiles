@@ -1,0 +1,5 @@
+#!/bin/bash
+
+WALLPATH="${XDG_DATA_HOME:-$HOME/.local/share}/wallpaper"
+
+xwallpaper --zoom "$WALLPATH"

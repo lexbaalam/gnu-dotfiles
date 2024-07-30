@@ -1,0 +1,69 @@
+#!/bin/bash
+
+addbookmark() {
+	
+    local BOOKMARK="$(xclip -o)"
+    local FILE="$HOME/.local/share/bookmark_websites"
+    
+    [[ ! -f $FILE ]] && dunstify "No found bookmark file" && exit
+    [[ -z $BOOKMARK ]] && [[ $BOOKMARK == "" ]] && exit
+
+    if grep -q "^$BOOKMARK" "$FILE"; then
+        dunstify "Oops, " "Already bookmarked!"
+    else
+        TAGS=$(yad --entry \
+        --title="Tags" \
+        --image=gtk-info \
+        --width=250 \
+        --height=80 \
+        --width=250 \
+        --button=Cancelar:2 \
+        --button=Ignore:1 \
+        --button=Aceptar:0 \
+        --center \
+        --text-align=center \
+        --text="Bookmark tags")
+
+        LABEL=$?	
+
+        case $LABEL in
+        0 )
+            [[ -z $TAGS ]] && dunstify "Tag is empty" && exit
+            echo "$BOOKMARK #$TAGS" >> "$FILE"
+            dunstify "Bookmark added!" "$BOOKMARK is now saved to the file."
+        ;;
+        1 )
+            echo "$BOOKMARK #unknown" >> "$FILE"
+            dunstify "Bookmark added!" "$BOOKMARK is now saved to the file."
+        ;;
+        * )
+            dunstify "Bookmark not save" 
+        ;;
+        esac    
+    fi
+}
+
+getbookmark() {
+
+    chosen=$(grep -v '^#' ~/.local/share/bookmark_websites | \
+    dmenu -i -fn 16 -nb "#222" -nf "#ff5500" -sb "#f50" -sf "#fff" -l 10 -p "Link:" | \
+    cut -d '#' -f1)
+
+    [ -z "$chosen" ] && exit
+
+    xdotool type $chosen
+    dunstify "$chosen copied to clipboard." &
+
+}
+
+case $1 in
+    -a | --add )
+        addbookmark
+    ;;
+    -g | --get)
+		getbookmark
+    ;;
+    * )
+        echo "No option"
+    ;;
+esac

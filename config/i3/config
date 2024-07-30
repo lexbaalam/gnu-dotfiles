@@ -187,3 +187,7 @@ client.background       #F8F8F2
 
 # Set wallpaper
 exec_always --no-startup-id ~/.local/scripts/setwallpaper
+
+# Personal shortcut
+bindsym $mod+g exec --no-startup-id ~/.local/scripts/bookmarkweb --get
+bindsym $mod+b exec --no-startup-id ~/.local/scripts/bookmarkweb --add

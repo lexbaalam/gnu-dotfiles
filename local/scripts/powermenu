@@ -1,0 +1,18 @@
+#!/bin/bash
+
+chosen=$(echo -e "Power Off\nRestart\nLock" | rofi -dmenu)
+
+[ -z "$chosen" ] && exit
+
+case "$chosen" in
+    "Power Off")
+        systemctl poweroff
+    ;;
+    "Restart") 
+        systemctl reboot
+    ;;
+        "Lock")
+	i3lock
+    ;;
+    *) exit 1 ;;
+esac

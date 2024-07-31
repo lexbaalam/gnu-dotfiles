@@ -191,3 +191,4 @@ exec_always --no-startup-id ~/.local/scripts/setwallpaper
 # Personal shortcut
 bindsym $mod+g exec --no-startup-id ~/.local/scripts/bookmarkweb --get
 bindsym $mod+b exec --no-startup-id ~/.local/scripts/bookmarkweb --add
+bindsym $mod+p exec --no-startup-id ~/.local/scripts/powermenu

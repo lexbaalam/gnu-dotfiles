@@ -1,0 +1,79 @@
+#!/bin/bash
+
+[[ -z $(which mat2) ]] && \
+[[ -z $(which exiftool) ]] && \
+[[ -z $(which qpdf) ]] && \
+echo "tools not installed" && \
+exit
+
+deletemetadata-videos() {
+	
+    local BASENAME
+    local EXT
+    local FLAG1
+    local FLAG2
+	
+    mkdir oldfiles 2>/dev/null || true
+	
+    for file in *.mp4 *.avi *.3gp *.divx *.flv *.rmvb *.mkv *.wmv *.webm *.mpg
+    do
+        [[ -f $file ]] || continue
+        echo "----------------------"
+        echo "File: $file"
+        BASENAME=${file%.*}
+    	EXT=${file##*.}
+        exiftool -all:all= "$file"
+        FLAG1=$?
+        mat2 "$file"
+        FLAG2=$?
+        
+        if [[ $FLAG1 == 0 ]]
+        then
+            if [[ $FLAG2 == 0 ]]
+            then
+                rm "${BASENAME}.${EXT}"
+                mv "${BASENAME}.${EXT}_original" oldfiles
+            else
+                mv "${BASENAME}.${EXT}_original" oldfiles
+                mv "${BASENAME}.${EXT}" "${BASENAME}.cleaned.${EXT}"
+            fi
+        else
+             if [[ $FLAG2 == 0 ]]
+             then
+                 mv "${BASENAME}.${EXT}" "${BASENAME}.${EXT}_original"
+                 mv "${BASENAME}.${EXT}_original" oldfiles
+             else
+                 mv "${BASENAME}.${EXT}" "${BASENAME}_fall.${EXT}"
+             fi
+        fi
+        echo "----------------------"
+    done
+}
+
+deletemetadata-pdf(){
+	
+	local EXT
+	local BASENAME
+
+    mkdir oldfiles 2>/dev/null || true
+	
+	for inputpdf in *.pdf;
+	do
+		
+		EXT=${inputpdf##*.}
+		BASENAME=${inputpdf%.*}
+		qpdf --linearize "$inputpdf" "$BASENAME.lineal.$EXT"
+		exiftool -all:all= "$BASENAME.lineal.$EXT"
+		qpdf --linearize "$BASENAME.lineal.$EXT" "$BASENAME.cleaned.$EXT"
+		mv "$inputpdf" oldfiles
+		rm "$BASENAME.lineal.$EXT"
+		rm "$BASENAME.lineal.${EXT}_original" 2>/dev/null || true
+		
+	done
+}
+
+case "$1" in
+	-v | --video ) deletemetadata-videos ;;
+	-p | --pdf ) deletemetadata-pdf;;
+	*) echo "no option valid";;
+esac

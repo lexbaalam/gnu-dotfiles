@@ -128,7 +128,6 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # reload/restart/exit the configuration file
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window
 mode "resize" {
@@ -191,4 +190,4 @@ exec_always --no-startup-id ~/.local/scripts/setwallpaper
 # Personal shortcut
 bindsym $mod+g exec --no-startup-id ~/.local/scripts/bookmarkweb --get
 bindsym $mod+b exec --no-startup-id ~/.local/scripts/bookmarkweb --add
-bindsym $mod+p exec --no-startup-id ~/.local/scripts/powermenu
+bindsym $mod+Shift+e exec --no-startup-id ~/.local/scripts/powermenu

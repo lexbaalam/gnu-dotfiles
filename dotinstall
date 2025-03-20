@@ -44,7 +44,35 @@ installapps() {
     fi
 }
 
+checkapps() {
+    
+    declare -a PKGS=(git i3 i3status xdotool xclip dunst yad dmenu mat2 exiftool qpdf rofi xwallpaper) 
+    declare -i SUMPKGS=0
+
+    for i in "${PKGS[@]}";do
+        CHECK=$(command -v "$i")
+
+        if [[ $? -eq 0 ]]; then
+            SUMPKGS+=1
+            echo "$i is installed"
+        fi
+    done
+
+    echo ""
+
+    if [[ $SUMPKGS -ne ${#PKGS[@]} ]]
+    then
+        echo "Necessary packages are not installed."
+        echo "Use the command <su root -- -c 'bash dotfiles -g'> or <su root -- -c 'bash dotfiles --getapps'>."
+        exit
+    else
+        echo "Necessary packages are installed."
+    fi
+}
+
 installdotfiles() {
+
+    checkapps
 
     echo "Installing dotfiles in your system..."
 	

@@ -3,7 +3,7 @@
 [[ -z $(which mat2) ]] && \
 [[ -z $(which exiftool) ]] && \
 [[ -z $(which qpdf) ]] && \
-echo "tools not installed" && \
+echo "tools are not installed" && \
 exit
 
 deletemetadata-videos() {

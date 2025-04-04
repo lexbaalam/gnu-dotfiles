@@ -16,32 +16,31 @@ installapps() {
 
     local INPUTFILE=apps
 
-    echo "You are running the script as root"
-    echo ""
-
-    if [ $(id -u) == "0" ]
+    if [ $(id -u) -ne "0" ]
     then
-        echo "Updating local repository ..."
-        echo ""
-        echo ""
-        apt update
-        apt list --upgradable
-        apt upgrade 
-
-        echo ""
-        echo ""
-        echo "Installing apps ..."
-        echo ""
-        echo ""
-        
-        while read -r LINE
-        do
-            apt install --no-install-recommends -y $LINE
-        done < "$INPUTFILE"
-    else
         echo "You are running the script as local"
         echo "Use the command <su root -- -c 'bash dotinstall -g'> or <su root -- -c 'bash dotinstall --getapps'>."
+        exit
     fi
+
+    echo "You are running the script as root"
+    echo ""
+    echo "Updating local repository ..."
+    echo ""
+    echo ""
+    apt update
+    apt list --upgradable
+    apt upgrade 
+    echo ""
+    echo ""
+    echo "Installing apps ..."
+    echo ""
+    echo ""
+        
+    while read -r LINE
+    do
+        apt install --no-install-recommends -y $LINE
+    done < "$INPUTFILE"
 }
 
 checkapps() {

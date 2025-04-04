@@ -40,7 +40,7 @@ installapps() {
         done < "$INPUTFILE"
     else
         echo "You are running the script as local"
-        echo "Use the command <su root -- -c 'bash dotfiles -g'> or <su root -- -c 'bash dotfiles --getapps'>."
+        echo "Use the command <su root -- -c 'bash dotinstall -g'> or <su root -- -c 'bash dotinstall --getapps'>."
     fi
 }
 
@@ -63,7 +63,7 @@ checkapps() {
     if [[ $SUMPKGS -ne ${#PKGS[@]} ]]
     then
         echo "Necessary packages are not installed."
-        echo "Use the command <su root -- -c 'bash dotfiles -g'> or <su root -- -c 'bash dotfiles --getapps'>."
+        echo "Use the command <su root -- -c 'bash dotinstall -g'> or <su root -- -c 'bash dotinstall --getapps'>."
         exit
     else
         echo "Necessary packages are installed."
